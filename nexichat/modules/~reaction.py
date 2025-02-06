@@ -1,13 +1,12 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-import random
+from nexichat import nexichat
 
-EMOJIS = ["🥰", "❤️", "😁", "💋", "😱", "🤣", "😘", "❤️‍🔥", "👌", "🫡", "😍"]
-
-@Client.on_message(filters.incoming)
+@nexichat.on_message(filters.incoming)
 async def react_to_messages(client: Client, message: Message):
     try:
-        random_emoji = random.choice(EMOJIS)
-        await message.react(random_emoji)
+        reactions = ["👍", "🙂", "🙏", "👀", "🥰"]  # Multiple reactions list
+        for reaction in reactions:
+            await message.react(reaction)  # Send each reaction
     except Exception as e:
         print(f"Failed to react to message: {e}")
