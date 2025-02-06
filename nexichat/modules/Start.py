@@ -35,4 +35,4 @@ async def start_message(client: Client, message: Message):
                 [InlineKeyboardButton("🌀 ᴏᴡɴᴇʀ 🌀", url="https://t.me/PRINCE_WEBZ")]
             ]
         )
-                    )
+    )
