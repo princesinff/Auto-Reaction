@@ -7,6 +7,7 @@ import config
 import os
 from nexichat import _boot_
 from nexichat import get_readable_time
+from nexichat.mplugin.helpers import is_owner
 from nexichat import nexichat
 from datetime import datetime
 from pymongo import MongoClient
@@ -19,27 +20,17 @@ from nexichat.database.chats import get_served_chats, add_served_chat
 from nexichat.database.users import get_served_users, add_served_user
 from nexichat.database.clonestats import get_served_cchats, get_served_cusers, add_served_cuser, add_served_cchat
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
-from pyrogram.types import InlineKeyboardButton
-
-from config import SUPPORT_GRP, UPDATE_CHNL
-from nexichat import OWNER, nexichat
-
-
-
-PNG_BTN = [
-    [
-        InlineKeyboardButton(text="• ᴜᴘᴅᴀᴛᴇ •", url="t.me/SWEETY_BOT_UPDATE"),
-    ],
-    [
-        InlineKeyboardButton(
-            text="⦿ ᴄʟᴏsᴇ ⦿",
-            callback_data="CLOSE",
-        ),
-    ],
-]
-
-
-
+from nexichat.mplugin.helpers import (
+    START,
+    START_BOT,
+    PNG_BTN,
+    CLOSE_BTN,
+    HELP_BTN,
+    HELP_BUTN,
+    HELP_READ,
+    HELP_START,
+    SOURCE_READ,
+)
 
 IMG = [
     "https://graph.org/file/210751796ff48991b86a3.jpg",
@@ -71,7 +62,7 @@ async def bot_sys_stats():
     return UP, CPU, RAM, DISK
 
 
-@nexichat.on_message(filters.command("ping"))
+@Client.on_message(filters.command("ping"))
 async def ping(client: Client, message: Message):
     bot_id = client.me.id
     start = datetime.now()
@@ -83,7 +74,7 @@ async def ping(client: Client, message: Message):
 
     ms = (datetime.now() - start).microseconds / 1000
     await loda.edit_text(
-        text=f"нey вαву!!\n{(await client.get_me()).mention} ᴄʜᴀᴛʙᴏᴛ ιѕ alιve  αnd worĸιng ғιne wιтн a pιng oғ\n\n**➥** `{ms}` ms\n**➲ ᴄᴘᴜ:** {CPU}\n**➲ ʀᴀᴍ:** {RAM}\n**➲ ᴅɪsᴋ:** {DISK}\n**➲ ᴜᴘᴛɪᴍᴇ »** {UP}\n\n<b>||** ➻ ʟᴏᴠᴇ ᴡɪᴛʜ ➪[‼ ️Ꭾʀɪ֟፝ؖ۬ɴᴄᴇ 𝐂ᴏᴅᴇz ⚝](https://t.me/{OWNER_USERNAME}) **||</b>",
+        text=f"нey вαву!!\n{(await client.get_me()).mention} ᴄʜᴀᴛʙᴏᴛ ιѕ alιve  αnd worĸιng ғιne wιтн a pιng oғ\n\n**➥** `{ms}` ms\n**➲ ᴄᴘᴜ:** {CPU}\n**➲ ʀᴀᴍ:** {RAM}\n**➲ ᴅɪsᴋ:** {DISK}\n**➲ ᴜᴘᴛɪᴍᴇ »** {UP}\n\n<b>||**➻ ʟᴏᴠᴇ ᴡɪᴛʜ ➪ [‼ ️Ꭾʀɪ֟፝ؖ۬ɴᴄᴇ 𝐂ᴏᴅᴇz ⚝](https://t.me/{OWNER_USERNAME}) **||</b>",
         reply_markup=InlineKeyboardMarkup(PNG_BTN),
     )
     if message.chat.type == ChatType.PRIVATE:
